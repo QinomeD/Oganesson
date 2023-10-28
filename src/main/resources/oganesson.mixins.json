@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "qinomed.oganesson.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "oganesson.refmap.json",
+  "mixins": [
+    "GreatestMthMixinEver"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
