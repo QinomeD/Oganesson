@@ -13,7 +13,7 @@ use jni::objects::{JClass};
 use jni::sys::{jdouble, jfloat};
 
 #[no_mangle]
-extern "system" fn Java_qinomed_oganesson_OganessonNative_lerp<'local>(
+pub extern "C" fn Java_qinomed_oganesson_OganessonNative_lerp<'local>(
     mut env: JNIEnv<'local>,
     class: JClass<'local>,
     delta: jdouble,
@@ -25,20 +25,7 @@ extern "system" fn Java_qinomed_oganesson_OganessonNative_lerp<'local>(
 }
 
 #[no_mangle]
-extern "system" fn Java_qinomed_Main_fastInvSqrt<'local>(
-    mut env: JNIEnv<'local>,
-    class: JClass<'local>,
-    number: jfloat) -> jfloat {
-
-    let half: f32 = 0.5 * number;
-    let mut i: u32 = half.to_bits();
-    i = 1597463007 - (i >> 1);
-    let res_number: f32 = f32::from_bits(i);
-    return res_number * (1.5 - half * res_number * res_number);
-}
-
-#[no_mangle]
-extern "system" fn Java_qinomed_oganesson_OganessonNative_fastInvSqrt<'local>(
+pub extern "C" fn Java_qinomed_oganesson_OganessonNative_fastInvSqrt<'local>(
     mut env: JNIEnv<'local>,
     class: JClass<'local>,
     number: jfloat) -> jfloat {

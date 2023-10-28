@@ -14,3 +14,4 @@ plugins {
 }
 
 rootProject.name = 'Oganesson'
+include("oganesson_native")

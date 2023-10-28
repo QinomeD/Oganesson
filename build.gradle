@@ -14,7 +14,7 @@ plugins {
     id 'idea'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
-    id("fr.stardustenterprises.rust.importer") version "3.2.4"
+    id 'fr.stardustenterprises.rust.importer' version "3.2.5"
 }
 
 apply plugin: 'org.spongepowered.mixin'
@@ -150,7 +150,7 @@ dependencies {
     // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    // rustImport(project("oganesson_native"))
+    rust(project(":oganesson_native"))
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
@@ -167,6 +167,11 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+rustImport {
+    baseDir.set("/META-INF/natives")
+    layout.set("hierarchical")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

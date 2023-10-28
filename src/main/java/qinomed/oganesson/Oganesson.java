@@ -9,41 +9,23 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.slf4j.Logger;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Oganesson.MODID)
 public class Oganesson {
 
     static {
-        // load("oganesson_native");
+        load("oganesson_native");
     }
 
     public static void load(String name) {
         name = System.mapLibraryName(name);
-        File libDir = new File("lib");
-        if (!libDir.exists()) {
-            libDir.mkdirs();
-        }
-        File object = new File("lib", name);
-        if (!object.exists()) {
-            InputStream is = Oganesson.class.getClassLoader().getResourceAsStream("/natives/" + name);
-            if (is != null){
-                try {
-                    Files.copy(is, object.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
+        String lib = Oganesson.class.getClassLoader().getResource("/natives/" + name).toString();
+
         try {
-            System.load(object.getAbsolutePath());
+            System.load(lib);
         } catch (UnsatisfiedLinkError error) {
             System.err.println("Native Lib could not be loaded!");
+            throw new RuntimeException(error);
         }
 
     }
