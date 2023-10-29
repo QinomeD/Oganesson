@@ -1,17 +1,39 @@
-// This is the interface to the JVM that we'll call the majority of our
-// methods on.
 use jni::JNIEnv;
-
-// These objects are what you should use as arguments to your native
-// function. They carry extra lifetime information to prevent them escaping
-// this context and getting used after being GC'd.
 use jni::objects::{JClass};
-
-// This is just a pointer. We'll be returning it from our function. We
-// can't return one of the objects with lifetime information because the
-// lifetime checker won't let us.
 use jni::sys::{jdouble, jfloat};
 
+
+// Mth.sin(float) -> float
+#[no_mangle]
+pub extern "C" fn Java_qinomed_oganesson_OganessonNative_sin<'local>(
+    mut env: JNIEnv<'local>,
+    class: JClass<'local>,
+    number: jfloat) -> jfloat {
+
+    return number.sin();
+}
+
+// Mth.cos(float) -> float
+#[no_mangle]
+pub extern "C" fn Java_qinomed_oganesson_OganessonNative_cos<'local>(
+    mut env: JNIEnv<'local>,
+    class: JClass<'local>,
+    number: jfloat) -> jfloat {
+
+    return number.cos();
+}
+
+// Mth.sqrt(float) -> float
+#[no_mangle]
+pub extern "C" fn Java_qinomed_oganesson_OganessonNative_sqrt<'local>(
+    mut env: JNIEnv<'local>,
+    class: JClass<'local>,
+    number: jfloat) -> jfloat {
+
+    return number.sqrt();
+}
+
+// Mth.lerp(double, double, double) -> double
 #[no_mangle]
 pub extern "C" fn Java_qinomed_oganesson_OganessonNative_lerp<'local>(
     mut env: JNIEnv<'local>,
@@ -24,6 +46,7 @@ pub extern "C" fn Java_qinomed_oganesson_OganessonNative_lerp<'local>(
     output.into()
 }
 
+// Mth.fastInvSqrt(float) -> float
 #[no_mangle]
 pub extern "C" fn Java_qinomed_oganesson_OganessonNative_fastInvSqrt<'local>(
     mut env: JNIEnv<'local>,
@@ -35,4 +58,15 @@ pub extern "C" fn Java_qinomed_oganesson_OganessonNative_fastInvSqrt<'local>(
     i = 1597463007 - (i >> 1);
     let res_number: f32 = f32::from_bits(i);
     return res_number * (1.5 - half * res_number * res_number);
+}
+
+// Mth.atan2(double, double) -> double
+#[no_mangle]
+pub extern "C" fn Java_qinomed_oganesson_OganessonNative_atan2<'local>(
+    mut env: JNIEnv<'local>,
+    class: JClass<'local>,
+    y: jdouble,
+    x: jdouble) -> jdouble {
+
+    return y.atan2(x);
 }
